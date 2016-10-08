@@ -21,5 +21,16 @@
     <ClCompile Include="extr_sift.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ColorDeconv.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="test.tif">
+      <Filter>源文件</Filter>
+    </Image>
+    <Image Include="test_100.tif">
+      <Filter>源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
