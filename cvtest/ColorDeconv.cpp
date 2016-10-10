@@ -25,11 +25,11 @@ Mat ColorDeconv(Mat I){
 		break;
 	}
 //=======STEP 2=======
-	// odI <-- optical density of (I)
-	Mat odI;
-	odI = rgbI + 1 / 255.0;
-	log(odI, odI);
-	odI = -(255 * odI) / log(255);
+	// odRGB <-- optical density of (I)
+	Mat odRGB;
+	odRGB = rgbI + 1 / 255.0;
+	log(odRGB, odRGB);
+	odRGB = -(255 * odRGB) / log(255);
 //=======STEP 3=======
 	// M <-- stain matrix of HE
 	Mat M = (Mat_<double>(3, 3) <<
@@ -43,14 +43,24 @@ Mat ColorDeconv(Mat I){
 		rowData = M.rowRange(i, i + 1);
 		normalize(rowData, rowData);
 	}
-	rowData.~Mat();
 	// D <-- M^-1
 	Mat D = M.inv();
 //======STEP 4=======
 	// odHEB <-- optical density of HEB image
+	//		 <-- D^T * odRGB
 	Mat odHEB;
-	// odHEB <-- D^T * odI
-	transform(odI, odHEB, D.t());
+	D = D.t();
+	Mat rowD[3];
+	for (int i = 0; i < 3; i++){
+		rowD[i] = D.rowRange(i, i + 1).clone();
+	}
+	// swapD <-- BGR order of D (swap Bchannel & Rchannel)
+	Mat swapD;
+	swapD.push_back(rowD[2]);
+	swapD.push_back(rowD[1]);
+	swapD.push_back(rowD[0]);
+	cout << swapD << endl;
+	transform(odRGB, odHEB, swapD);
 
 	/************* HERE IS ANOTHER BETA VERSION***********************
 	// odHEB <-- optical density of HEB image

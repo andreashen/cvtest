@@ -17,7 +17,7 @@ Mat multi2(Mat a){
 }
 int main()
 {
-	Mat I = imread("test_100.tif");
+	Mat I = imread("test.tif");
 	//=======STEP 1=======
 	// rgbI <-- RGB channels of (I) with 3 channels & 64-bit precision
 	Mat rgbI = I.clone();
@@ -62,24 +62,47 @@ int main()
 	Mat D = M.inv();
 
 	//======STEP 4=======  HERE IS UNDER CONSTRUCTION!!!!!!!!========================================
+	//======STEP 4=======
 	// odHEB <-- optical density of HEB image
+	//		 <-- D^T * odI
 	Mat odHEB;
-
-	// c_odRGB <-- 3-element array of 3 channels of optical density of RGB image
-	Mat c_odRGB[3];
-	split(odRGB, c_odRGB);
-	// c_odHEB <-- 3-element array of 3 channels of optical density of HEB image
-	/*Mat c_odHEB[3];*/
-	vector<Mat> c_odHEB;
-	for (int c = 0; c < 3; c++){
-		c_odHEB.push_back(D.at<double>(0, c)*c_odRGB[0]
-			+ D.at<double>(1, c)*c_odRGB[1]
-			+ D.at<double>(2, c)*c_odRGB[2]);
+	D = D.t();
+	cout << "D=" << D << endl;
+	getchar();
+	Mat rowD[3];
+	for (int i = 0; i < 3; i++){
+		rowD[i] = D.rowRange(i, i + 1).clone();
 	}
-	merge(c_odHEB, odHEB);
-	imshow("hava a go", c_odHEB[0]/255.0);
+	// swapD <-- BGR order of D (swap Bchannel & Rchannel)
+	Mat swapD;
+	swapD.push_back(rowD[2]);
+	swapD.push_back(rowD[1]);
+	swapD.push_back(rowD[0]);
+	cout << swapD << endl;
+	getchar();
+	transform(odRGB, odHEB, swapD);
+	Mat c_odHEB[3];
+	split(odHEB, c_odHEB);
+	imshow("H", c_odHEB[0]);
 	waitKey(0);
-	return 4;
+	//// odHEB <-- optical density of HEB image
+	//Mat odHEB;
+
+	//// c_odRGB <-- 3-element array of 3 channels of optical density of RGB image
+	//Mat c_odRGB[3];
+	//split(odRGB, c_odRGB);
+	//// c_odHEB <-- 3-element array of 3 channels of optical density of HEB image
+	///*Mat c_odHEB[3];*/
+	//vector<Mat> c_odHEB;
+	//for (int c = 0; c < 3; c++){
+	//	c_odHEB.push_back(D.at<double>(0, c)*c_odRGB[0]
+	//		+ D.at<double>(1, c)*c_odRGB[1]
+	//		+ D.at<double>(2, c)*c_odRGB[2]);
+	//}
+	//merge(c_odHEB, odHEB);
+	//imshow("hava a go", c_odHEB[0]/255.0);
+	//waitKey(0);
+	//return 4;
 	//======STEP 5=======
 	// hebI <-- HEB channels of image (I)
 	Mat hebI;
