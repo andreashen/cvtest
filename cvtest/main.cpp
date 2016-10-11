@@ -120,10 +120,13 @@ int main()
 	Mat cHEB[3];
 	split(HEB, cHEB);
 	imshow("H channel", cHEB[0]);
+	imwrite("H_1011.tif", cHEB[0]);
 	waitKey(0);
 	imshow("E channel", cHEB[1]);
+	imwrite("E_1011.tif", cHEB[1]);
 	waitKey(0);
 	imshow("Back", cHEB[2]);
+	imwrite("B_1011.tif", cHEB[2]);
 	waitKey(0);
 	return 1;
 
