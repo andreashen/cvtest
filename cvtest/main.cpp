@@ -42,8 +42,6 @@ int main()
 	odRGB = rgbI + 1 / 255.0;
 	log(odRGB, odRGB);
 	odRGB = -(255 * odRGB) / log(255);
-
-
 	//=======STEP 3=======
 	// M <-- stain matrix of HE
 	Mat M = (Mat_<double>(3, 3) <<
@@ -57,14 +55,11 @@ int main()
 		rowData = M.rowRange(i, i + 1);
 		normalize(rowData, rowData);
 	}
-	rowData.~Mat();
 	// D <-- M^-1
 	Mat D = M.inv();
-
-	//======STEP 4=======  HERE IS UNDER CONSTRUCTION!!!!!!!!========================================
 	//======STEP 4=======
 	// odHEB <-- optical density of HEB image
-	//		 <-- D^T * odI
+	//		 <-- D^T * odRGB
 	Mat odHEB;
 	D = D.t();
 	cout << "D=" << D << endl;
@@ -85,6 +80,9 @@ int main()
 	split(odHEB, c_odHEB);
 	imshow("H", c_odHEB[0]);
 	waitKey(0);
+
+
+	/************* HERE IS ANOTHER BETA VERSION***********************/
 	//// odHEB <-- optical density of HEB image
 	//Mat odHEB;
 
