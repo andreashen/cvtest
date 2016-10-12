@@ -8,16 +8,37 @@ using namespace std;
 Mat PrePro(const string &filename);
 Mat PrePro(Mat I);
 Mat ColorDeconv(Mat I);
-
-
-Mat multi2(Mat a){
-	Mat b = a;
-	b = a * 2;
-	return b;
+void SwapRow13(Mat mIn, Mat &mOut){
+	Mat M = mIn.clone();
+	Mat rowData[3];
+	for (int i = 0; i < 3; i++){
+		rowData[i] = M.rowRange(i, i + 1).clone();
+	}
+	Mat swapM;
+	for (int j = 2; j >-1; j--){
+		swapM.push_back(rowData[j]);
+	}
+	mOut = swapM.clone();
 }
+
+//int main(){
+//	Mat M = (Mat_<double>(3, 3) <<
+//		0.644211, 0.716556, 0.266844,
+//		0.092789, 0.954111, 0.283111,
+//		0.759199, 0, 0.921218);
+//	cout << "M=" << endl << M << endl;
+//	SwapRow13(M, M);
+//	cout << "M=" << endl << M << endl;
+//	getchar();
+//	return 1;
+//}
+
+
+
 int main()
 {
 	Mat I = imread("test.tif");
+	cvtColor(I, I, CV_BGR2RGB);
 	//=======STEP 1=======
 	// rgbI <-- RGB channels of (I) with 3 channels & 64-bit precision
 	Mat rgbI = I.clone();
@@ -48,6 +69,8 @@ int main()
 		0.644211, 0.716556, 0.266844,
 		0.092789, 0.954111, 0.283111,
 		0.759199, 0, 0.921218);
+	//SwapRow13(M, M);
+
 	// normalize M by L2-NORM in every row
 	// rowData: used to extract each row of (M)
 	Mat rowData;
@@ -62,20 +85,17 @@ int main()
 	//		 <-- D^T * odRGB
 	Mat odHEB;
 	D = D.t();
-	cout << "D=" << D << endl;
-	getchar();
-	Mat rowD[3];
-	for (int i = 0; i < 3; i++){
-		rowD[i] = D.rowRange(i, i + 1).clone();
-	}
-	// swapD <-- BGR order of D (swap Bchannel & Rchannel)
-	Mat swapD;
-	swapD.push_back(rowD[2]);
-	swapD.push_back(rowD[1]);
-	swapD.push_back(rowD[0]);
-	cout << swapD << endl;
-	getchar();
-	transform(odRGB, odHEB, swapD);
+	//Mat rowD[3];
+	//for (int i = 0; i < 3; i++){
+	//	rowD[i] = D.rowRange(i, i + 1).clone();
+	//}
+	//// swapD <-- BGR order of D (swap Bchannel & Rchannel)
+	//Mat swapD;
+	//swapD.push_back(rowD[2]);
+	//swapD.push_back(rowD[1]);
+	//swapD.push_back(rowD[0]);
+	//cout << swapD << endl;
+	transform(odRGB, odHEB, D);
 	Mat c_odHEB[3];
 	split(odHEB, c_odHEB);
 	imshow("H", c_odHEB[0]);
@@ -120,13 +140,13 @@ int main()
 	Mat cHEB[3];
 	split(HEB, cHEB);
 	imshow("H channel", cHEB[0]);
-	imwrite("H_1011.tif", cHEB[0]);
+	imwrite("H_1012.tif", cHEB[0]);
 	waitKey(0);
 	imshow("E channel", cHEB[1]);
-	imwrite("E_1011.tif", cHEB[1]);
+	imwrite("E_1012.tif", cHEB[1]);
 	waitKey(0);
 	imshow("Back", cHEB[2]);
-	imwrite("B_1011.tif", cHEB[2]);
+	imwrite("B_1012.tif", cHEB[2]);
 	waitKey(0);
 	return 1;
 
