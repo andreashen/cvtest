@@ -21,20 +21,28 @@ void SwapRow13(Mat mIn, Mat &mOut){
 	mOut = swapM.clone();
 }
 
-//int main(){
-//	Mat M = (Mat_<double>(3, 3) <<
-//		0.644211, 0.716556, 0.266844,
-//		0.092789, 0.954111, 0.283111,
-//		0.759199, 0, 0.921218);
-//	cout << "M=" << endl << M << endl;
-//	SwapRow13(M, M);
-//	cout << "M=" << endl << M << endl;
-//	getchar();
-//	return 1;
-//}
+void multi2(Mat I){
+	Mat g =I;
+	g = g * 2;
+	g.convertTo(g, CV_8UC1);
+	g = g * 2;
+	I = g*3;
+}
 
+int main(){
+	Mat M = (Mat_<double>(3, 3) <<
+		1, 2, 3, 4, 5, 6, 7.2, 8, 9);
+	cout << "M.type()=" << M.type() << endl;
+	cout << "M=" << endl << M << endl;
+	multi2(M);
+	cout << "M.type()=" << M.type() << endl;
+	cout << "M=" << endl << M << endl;
+	getchar();
+	return 1;
+}
 
-
+//color deconv
+/*
 int main()
 {
 	Mat I = imread("test.tif");
@@ -102,7 +110,7 @@ int main()
 	waitKey(0);
 
 
-	/************* HERE IS ANOTHER BETA VERSION***********************/
+	// ************ HERE IS ANOTHER BETA VERSION***********************
 	//// odHEB <-- optical density of HEB image
 	//Mat odHEB;
 
@@ -110,7 +118,7 @@ int main()
 	//Mat c_odRGB[3];
 	//split(odRGB, c_odRGB);
 	//// c_odHEB <-- 3-element array of 3 channels of optical density of HEB image
-	///*Mat c_odHEB[3];*/
+	//Mat c_odHEB[3];
 	//vector<Mat> c_odHEB;
 	//for (int c = 0; c < 3; c++){
 	//	c_odHEB.push_back(D.at<double>(0, c)*c_odRGB[0]
@@ -151,6 +159,7 @@ int main()
 	return 1;
 
 }
+**/
 
 Mat PrePro(const string &filename){
 	Mat I = imread(filename);
