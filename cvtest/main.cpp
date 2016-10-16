@@ -29,6 +29,18 @@ void multi2(Mat I){
 	g = g * 2;
 	I = g*3;
 }
+void ClearBorder(Mat src, Mat &dst){
+	// I <- src image
+	Mat I = src.clone();
+	// bigI <- I with borders added
+	Mat bigI;
+	// add 4 white borders to image
+	copyMakeBorder(I, bigI, 1, 1, 1, 1, BORDER_CONSTANT, Scalar(255));
+	// floodfill from borders
+	floodFill(bigI, Point(0, 0), Scalar(0), 0, Scalar(0), Scalar(0), 8);
+	// output
+	dst = bigI;
+}
 
 int main(){
 	//cout << (1 << 3) << endl;
@@ -37,6 +49,13 @@ int main(){
 	////cout << "CV_64FC3=" << CV_64FC3 << endl;//22
 	//getchar();
 	//return 2;
+	Mat I = imread("lumens.jpg");
+	cvtColor(I, I, CV_BGR2GRAY);
+	threshold(I, I, 128, 255, CV_THRESH_BINARY);
+	Mat dst;
+	ClearBorder(I, dst);
+	imwrite("lumens_cb.tif", dst);
+	return 1;
 	Mat M = (Mat_<float>(3, 3) <<
 		1, 2, 3, 4, 5, 6, 7.2, 8, 9);
 	cout << "M.type()=" << M.type() << endl;
