@@ -163,3 +163,4 @@ main.cpp
 extr_sift.cpp
 *.vcxproj
 *.filters
+*.sln
