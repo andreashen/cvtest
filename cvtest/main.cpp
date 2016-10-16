@@ -23,6 +23,7 @@ void SwapRow13(Mat mIn, Mat &mOut){
 
 void multi2(Mat I){
 	Mat g =I;
+	I = g * 3;
 	g = g * 2;
 	g.convertTo(g, CV_8UC1);
 	g = g * 2;
@@ -30,7 +31,13 @@ void multi2(Mat I){
 }
 
 int main(){
-	Mat M = (Mat_<double>(3, 3) <<
+	//cout << (1 << 3) << endl;
+	////cout << "CV_8UC3=" << CV_8UC3 << endl;  //16
+	////cout << "CV_32FC3=" << CV_32FC3 << endl;//21
+	////cout << "CV_64FC3=" << CV_64FC3 << endl;//22
+	//getchar();
+	//return 2;
+	Mat M = (Mat_<float>(3, 3) <<
 		1, 2, 3, 4, 5, 6, 7.2, 8, 9);
 	cout << "M.type()=" << M.type() << endl;
 	cout << "M=" << endl << M << endl;
