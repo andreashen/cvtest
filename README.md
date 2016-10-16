@@ -1,5 +1,5 @@
 ﻿# cvtest
-My OpenCV project.
+My OpenCV project for testing any ideas.
 ## introduction
 
 - **ClearBorder.cpp**: 
