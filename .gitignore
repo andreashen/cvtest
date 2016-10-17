@@ -161,3 +161,7 @@ $RECYCLE.BIN/
 *.tif
 main.cpp
 extr_sift.cpp
+*.sln
+*.filters
+*.vcxproj
+
