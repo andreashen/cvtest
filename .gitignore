@@ -155,7 +155,7 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
-# added by Eswai
+# cvtest's ignore
 *.jpg
 *.png
 *.tif
@@ -164,4 +164,4 @@ extr_sift.cpp
 *.sln
 *.filters
 *.vcxproj
-
+*.xml
