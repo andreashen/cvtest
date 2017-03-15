@@ -11,6 +11,7 @@ Updated on 16th Oct.
 
 - **ColorDeconv.cpp**:   
 The function implements H-E stain separation using Ruifrok and Johnston's method described in [1].
+
 Reference:
 [1] Ruifrok AC, Johnston DA. Quantification of histochemical staining by color deconvolution. Anal Quant Cytol Histol 23: 291-299, 2001.
 
